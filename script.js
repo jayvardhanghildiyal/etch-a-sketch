@@ -1,24 +1,28 @@
 const container = document.querySelector("div.container")
-let number = 256;
-
 const adj = document.querySelector(".adjuster")
 
 adj.addEventListener("click", () => {
-    number = prompt("Enter a grid size")
-    container.style.width =  `${500 + (1* number)}px`
-    container.style.height =  `${600}px`
 
-    while (container.hasChildNodes() == true) {
-        container.removeChild(container.children)
+    while (container.firstChild) {
+        container.firstChild.remove()
     }
 
+    number = prompt("Enter a dimension for forming a grid ! [100 or less for performance reasons.]")
+    container.style.width =  `${600 + (1.6 * number)}px`
+    container.style.height =  `${600}px`
+
+
     for (let i = 1; i <= (number * number); i++) {
+        let bright = 100
         const square = document.createElement("div")
-        square.setAttribute("class", "box")
         square.style.width = `${600 / number}px`
         square.style.height = `${600 / number}px`
-        square.addEventListener("mousemove", () => {
-            square.style.backgroundColor = "orangered"
+        square.style.border = "0.8px solid black"
+        square.style.filter = `brightness(${bright}%)`
+        square.addEventListener("mouseenter", () => {
+            square.style.backgroundColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+            bright -= 10
+            square.style.filter = `brightness(${bright}%)`
         })
         container.appendChild(square)
     }
